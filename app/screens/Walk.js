@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker, Polyline } from 'react-native-maps';
@@ -6,12 +6,15 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 import distanceBetween from '../util/distance';
 import WalkContext from '../context/walk_context';
 import WalkDetails from '../components/WalkDetails';
+import WalkStart from '../components/WalkStart';
 
 const Walk = () => {
     const [location, setLocation] = useState();
     const [coords, setCoords] = useState([]);
     const [distance, setDistance] = useState(0);
     const [last, setLast] = useState();
+    const { onWalk } = useContext(WalkContext);
+
 
     const watchPosition = async () => {
         const { granted } = await Location.requestPermissionsAsync();
@@ -84,7 +87,10 @@ const Walk = () => {
                 
                 </MapView>
             }
-            <WalkDetails distance={distance} />
+            { onWalk ?
+                <WalkDetails distance={distance} /> :
+                <WalkStart />
+            }
         </View>
     )
 }
