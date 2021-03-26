@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import * as Location from 'expo-location';
-import haversine from 'haversine';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 import distanceBetween from '../util/distance';
+import WalkContext from '../context/walk_context';
 import WalkDetails from '../components/WalkDetails';
 
 const Walk = () => {
@@ -24,7 +24,6 @@ const Walk = () => {
             longitude: currentLocation.coords.longitude
         };
         setLast(firstLast);
-        // console.log(last);
 
         const newLoc =  await Location.watchPositionAsync({
             accuracy: Location.Accuracy.High,
@@ -38,39 +37,23 @@ const Walk = () => {
             }
 
             if (last) {
-                // const newDist = calcDist(newCoord);
                 const newDist = distanceBetween(
                     last.latitude,
                     last.longitude,
                     newCoord.latitude,
                     newCoord.longitude
                 );
-                console.log(newDist);
                 setDistance(distance + newDist);
                 setLast(newCoord);
-                console.log(distance);
             }
             
-            // const newCoords = [...coords];
-            // newCoords.concat([newCoord]);
-            // setCoords(newCoords);
-            
-            
+            setCoords([...coords, newCoord]);
             setLocation(position.coords);
         }, 
         err => console.log(err));
     }
 
-    const calcDist = latLng => {
-        return haversine(last, latLng) || 0;
-    }
-
-
     useEffect(() => {
-        // navigator.geolocation.watchPosition(position => {
-        //     console.log(position);
-        // }, err => console.log(err)
-        // );
         watchPosition();
     }, []);
 
