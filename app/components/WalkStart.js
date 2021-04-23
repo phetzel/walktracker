@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
+import textUtil from '../util/text';
 import WalkContext from '../context/walk_context';
 import WalkStartButton from './WalkStartButton';
 
@@ -9,7 +10,7 @@ const WalkStart = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Click to Start</Text>
+            <Text style={textUtil}>Click to Start</Text>
             <WalkStartButton onPress={() => setOnWalk(true)}/>
         </View>
     );
@@ -26,9 +27,6 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       position: 'absolute',
       width: '95%'
-  },
-  text: {
-      fontSize: 30
   }
 });
 
