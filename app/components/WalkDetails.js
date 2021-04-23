@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+
+import WalkContext from '../context/walk_context';
+import WalkTimer from './WalkTimer';
 
 const WalkDetails = ({ distance }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Distance: {distance.toFixed(2)}km</Text>
+            <WalkTimer />
         </View>
     );
 };
