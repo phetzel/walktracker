@@ -11,23 +11,25 @@ import WalkStart from '../components/WalkStart';
 const Walk = () => {
     const [location, setLocation] = useState();
     const [coords, setCoords] = useState([]);
-    const [distance, setDistance] = useState(0);
     const [last, setLast] = useState();
-    const { onWalk } = useContext(WalkContext);
+    const { onWalk, distance, setDistance } = useContext(WalkContext);
 
-
-    const watchPosition = async () => {
+    const getInitLocation = async () => {
         const { granted } = await Location.requestPermissionsAsync();
         if (!granted) return;
 
         const currentLocation = await Location.getCurrentPositionAsync({});
         setLocation(currentLocation.coords);
+
         const firstLast = {
             latitude: currentLocation.coords.latitude,
             longitude: currentLocation.coords.longitude
         };
         setLast(firstLast);
+    }
 
+
+    const watchPosition = async () => {
         const newLoc =  await Location.watchPositionAsync({
             accuracy: Location.Accuracy.High,
             timeInterval: 1000,
@@ -57,8 +59,14 @@ const Walk = () => {
     }
 
     useEffect(() => {
-        watchPosition();
-    }, []);
+        if (!location) {
+            getInitLocation();
+        }
+
+        if (onWalk) {
+            watchPosition();
+        }
+    }, [onWalk]);
 
     return (
         <View style={styles.container}>

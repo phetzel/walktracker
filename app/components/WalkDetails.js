@@ -6,7 +6,8 @@ import WalkContext from '../context/walk_context';
 import WalkControls from './WalkControls';
 import WalkTimer from './WalkTimer';
 
-const WalkDetails = ({ distance }) => {
+const WalkDetails = () => {
+    const { distance } = useContext(WalkContext);
     return (
         <View style={styles.container}>
             <View>

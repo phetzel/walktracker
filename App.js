@@ -8,6 +8,7 @@ import WalkContext from './app/context/walk_context';
 
 export default function App() {
   const [onWalk, setOnWalk] = useState(false);
+  const [distance, setDistance] = useState(0);
   const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset } = useTimer(0);
 
   return (
@@ -15,6 +16,8 @@ export default function App() {
       value={{ 
         onWalk, 
         setOnWalk,
+        distance,
+        setDistance,
         timer,
         isActive,
         isPaused,
