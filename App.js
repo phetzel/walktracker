@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 
+import useTimer from './app/hooks/useTimer';
 import TabNavigator from './app/navigator/TabNavigator';
 import WalkContext from './app/context/walk_context';
 
 export default function App() {
   const [onWalk, setOnWalk] = useState(false);
-  const [timer, setTimer] = useState(0);
+  const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset } = useTimer(0);
 
   return (
     <WalkContext.Provider 
@@ -15,7 +16,12 @@ export default function App() {
         onWalk, 
         setOnWalk,
         timer,
-        setTimer }}>
+        isActive,
+        isPaused,
+        handleStart,
+        handlePause,
+        handleResume,
+        handleReset }}>
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>

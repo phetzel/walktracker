@@ -10,7 +10,7 @@ const WalkStart = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={textUtil}>Click to Start</Text>
+            <Text style={textUtil}>Click to Start Walk</Text>
             <WalkStartButton onPress={() => setOnWalk(true)}/>
         </View>
     );
@@ -19,6 +19,7 @@ const WalkStart = (props) => {
 const styles = StyleSheet.create({
   container: {
       alignItems: 'center',
+      alignSelf: 'center',
       backgroundColor: "rgba(255,255,255,0.7)",
       bottom: 25,
       borderRadius: 20,
