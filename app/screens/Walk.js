@@ -12,7 +12,8 @@ const Walk = () => {
     const [location, setLocation] = useState();
     const [coords, setCoords] = useState([]);
     const [last, setLast] = useState();
-    const { onWalk, distance, setDistance } = useContext(WalkContext);
+    const [watch, setWatch] = useState();
+    const { onWalk, distance, setDistance, isPaused } = useContext(WalkContext);
 
     const getInitLocation = async () => {
         const { granted } = await Location.requestPermissionsAsync();
@@ -30,7 +31,11 @@ const Walk = () => {
 
 
     const watchPosition = async () => {
-        const newLoc =  await Location.watchPositionAsync({
+        let newLoc;
+        setWatch(
+
+        
+        newLoc =  await Location.watchPositionAsync({
             accuracy: Location.Accuracy.High,
             timeInterval: 1000,
             distanceInterval: 10
@@ -55,7 +60,18 @@ const Walk = () => {
             setCoords([...coords, newCoord]);
             setLocation(position.coords);
         }, 
-        err => console.log(err));
+        err => console.log(err))
+        );
+
+        // setWatch(newLoc);
+    }
+
+    const stopWatching = () => {
+        console.log('hit1');
+        if (watch) {
+            console.log('hit2');
+            watch.remove();
+        }
     }
 
     useEffect(() => {
@@ -63,10 +79,13 @@ const Walk = () => {
             getInitLocation();
         }
 
-        if (onWalk) {
+        if (isPaused) {
             watchPosition();
+        } else {
+            stopWatching();
         }
-    }, [onWalk]);
+
+    }, [isPaused]);
 
     return (
         <View style={styles.container}>
@@ -79,7 +98,8 @@ const Walk = () => {
                         latitudeDelta: 0.05,
                         longitudeDelta: 0.05
                     }}
-                    provider={MapView.PROVIDER_GOOGLE}>
+                    provider={MapView.PROVIDER_GOOGLE}
+                    followsUserLocation={true}>
 
                     <Polyline coordinates={coords} strokeWidth={5} />
 

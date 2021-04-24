@@ -1,15 +1,18 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 import textUtil from '../util/text';
 import WalkContext from '../context/walk_context';
 import WalkControls from './WalkControls';
+import WalkModal from './WalkModal';
 import WalkTimer from './WalkTimer';
 
 const WalkDetails = () => {
     const { distance } = useContext(WalkContext);
+    const { modVis, setModVis } = useState(false);
     return (
         <View style={styles.container}>
+            {/* <WalkModal visible={modVis} setVisible={setModVis} /> */}
             <View>
                 <Text style={textUtil}>Distance: {distance.toFixed(2)}km</Text>
                 <WalkTimer />

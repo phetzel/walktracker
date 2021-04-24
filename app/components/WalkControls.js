@@ -11,11 +11,13 @@ const WalkControls = (props) => {
         handlePause,
         handleResume,
         handleReset,
-        setOnWalk
+        setOnWalk,
+        setDistance
     } = useContext(WalkContext);
 
     const handleStop = () => {
         handleReset();
+        setDistance(0);
         setOnWalk(false);
     }
 
