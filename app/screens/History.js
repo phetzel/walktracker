@@ -14,6 +14,7 @@ const History = (props) => {
 
     const fetchUserWalks = async () => {
         const value = await AsyncStorage.getItem('id');
+
         if (value != null) {
             fetchUser(value).then(res => {
                 setWalks(res.data.walks);
@@ -22,7 +23,7 @@ const History = (props) => {
             createUser()
                 .then(res => {
                     console.log(res);
-                    // AsyncStorage.setItem('id', res.data.id.toString());
+                    AsyncStorage.setItem('id', res.data.id.toString());
                 })
         }
     }
