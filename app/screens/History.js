@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 
 import colors from '../util/colors';
 import HistoryListItem from '../components/HistoryListItem';
 import HistoryListHeader from '../components/HistoryListHeader';
 import Screen from '../components/Screen';
+import { createUser, fetchUser } from '../api/user_api';
 
 const walks = [
     { id: 1, dist: 2.5, date: '8/31/2019'},
@@ -17,6 +18,12 @@ const walks = [
 ]
 
 const History = (props) => {
+    useEffect(() => {
+        fetchUser(1).then(res => {
+            console.log(res);
+        })
+    }, []);
+
     return (
         <Screen style={styles.container}>
             <View style={styles.list}>

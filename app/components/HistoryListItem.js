@@ -5,7 +5,6 @@ import colors from '../util/colors';
 import textUtil from '../util/text';
 
 const HistoryListItem = ({ id, dist, date }) => {
-    console.log(id);
     return (
         <View style={styles.container}>
             <Text style={textUtil}>{id}</Text>
