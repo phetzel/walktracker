@@ -33,43 +33,37 @@ const Walk = () => {
     const watchPosition = async () => {
         let newLoc;
         setWatch(
+            newLoc =  await Location.watchPositionAsync({
+                accuracy: Location.Accuracy.High,
+                timeInterval: 1000,
+                distanceInterval: 10
+            }, position => {
+                const { latitude, longitude } = position.coords;
+                const newCoord = {
+                    latitude,
+                    longitude
+                }
 
-        
-        newLoc =  await Location.watchPositionAsync({
-            accuracy: Location.Accuracy.High,
-            timeInterval: 1000,
-            distanceInterval: 10
-        }, position => {
-            const { latitude, longitude } = position.coords;
-            const newCoord = {
-                latitude,
-                longitude
-            }
-
-            if (last) {
-                const newDist = distanceBetween(
-                    last.latitude,
-                    last.longitude,
-                    newCoord.latitude,
-                    newCoord.longitude
-                );
-                setDistance(distance + newDist);
-                setLast(newCoord);
-            }
-            
-            setCoords([...coords, newCoord]);
-            setLocation(position.coords);
-        }, 
-        err => console.log(err))
+                if (last) {
+                    const newDist = distanceBetween(
+                        last.latitude,
+                        last.longitude,
+                        newCoord.latitude,
+                        newCoord.longitude
+                    );
+                    setDistance(distance + newDist);
+                    setLast(newCoord);
+                }
+                
+                setCoords([...coords, newCoord]);
+                setLocation(position.coords);
+            }, 
+            err => console.log(err))
         );
-
-        // setWatch(newLoc);
     }
 
     const stopWatching = () => {
-        console.log('hit1');
         if (watch) {
-            console.log('hit2');
             watch.remove();
         }
     }

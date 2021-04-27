@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 
 import colors from '../util/colors';
+import HistoryListItem from '../components/HistoryListItem';
 
 const walks = [
     { id: 1, dist: 2.5, date: '8/31/2019'},
@@ -21,9 +22,12 @@ const History = (props) => {
                     contentContainerStyle={{ flexGrow: 1 }}
                     data={walks}
                     keyExtractor={walk => walk.id.toString()}
-                    render={({ walk }) => (
-                        <View style={styles.walk}></View>
-                    )}
+                    renderItem={({item}) => 
+                        <HistoryListItem 
+                            id={item.id} 
+                            dist={item.dist}
+                            date={item.date} />
+                    }
                 />
             </View>
         </View>
@@ -38,12 +42,6 @@ const styles = StyleSheet.create({
   list: {
       backgroundColor: colors.green,
     // height: '100%'
-  },
-  walk: {
-      backgroundColor: colors.white,
-      height: 150,
-      marginBottom: 10,
-      width: '100%'
   }
 });
 
