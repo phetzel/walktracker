@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../util/colors';
 import HistoryListItem from '../components/HistoryListItem';
@@ -11,10 +12,23 @@ import { createUser, fetchUser } from '../api/user_api';
 const History = (props) => {
     const [walks, setWalks] = useState();
 
+    const fetchUserWalks = async () => {
+        const value = await AsyncStorage.getItem('id');
+        if (value != null) {
+            fetchUser(value).then(res => {
+                setWalks(res.data.walks);
+            })
+        } else {
+            createUser()
+                .then(res => {
+                    console.log(res);
+                    // AsyncStorage.setItem('id', res.data.id.toString());
+                })
+        }
+    }
+
     useEffect(() => {
-        fetchUser(1).then(res => {
-           setWalks(res.data.walks);
-        })
+        fetchUserWalks();
     }, []);
 
     return (
