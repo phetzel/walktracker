@@ -9,16 +9,18 @@ const HistoryListItem = ({ id, dist, date }) => {
     return (
         <View style={styles.container}>
             <Text style={textUtil}>{id}</Text>
-            <Text style={textUtil}>{dist}</Text>
-            <Text style={textUtil}>{date}</Text>
+            <Text style={textUtil}>Distance:  {dist}</Text>
+            <Text style={textUtil}>Date:  {date}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
   container: {
+      alignSelf: 'center',
       backgroundColor: colors.white,
       height: 100,
+      marginBottom: 5,
       width: '90%'
   },
 });

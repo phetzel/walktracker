@@ -3,6 +3,8 @@ import { FlatList, View, StyleSheet } from 'react-native';
 
 import colors from '../util/colors';
 import HistoryListItem from '../components/HistoryListItem';
+import HistoryListHeader from '../components/HistoryListHeader';
+import Screen from '../components/Screen';
 
 const walks = [
     { id: 1, dist: 2.5, date: '8/31/2019'},
@@ -16,12 +18,13 @@ const walks = [
 
 const History = (props) => {
     return (
-        <View style={styles.container}>
+        <Screen style={styles.container}>
             <View style={styles.list}>
                 <FlatList 
                     contentContainerStyle={{ flexGrow: 1 }}
                     data={walks}
                     keyExtractor={walk => walk.id.toString()}
+                    ListHeaderComponent={() => <HistoryListHeader />}
                     renderItem={({item}) => 
                         <HistoryListItem 
                             id={item.id} 
@@ -30,19 +33,20 @@ const History = (props) => {
                     }
                 />
             </View>
-        </View>
+        </Screen>
     );
 };
 
 const styles = StyleSheet.create({
   container: {
       backgroundColor: colors.black,
-      flex: 1
+      flex: 1,
+      width: '100%'
   },
   list: {
-      backgroundColor: colors.green,
-    // height: '100%'
-  }
+      backgroundColor: colors.black,
+      width: '100%'
+  },
 });
 
 export default History;
