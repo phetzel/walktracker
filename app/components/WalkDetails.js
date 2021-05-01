@@ -9,15 +9,16 @@ import WalkTimer from './WalkTimer';
 
 const WalkDetails = () => {
     const { distance } = useContext(WalkContext);
-    const { modVis, setModVis } = useState(false);
+    const [ modVis, setModVis ] = useState(false);
+
     return (
         <View style={styles.container}>
-            {/* <WalkModal visible={modVis} setVisible={setModVis} /> */}
+            <WalkModal visible={modVis} setVisible={setModVis} />
             <View>
                 <Text style={textUtil}>Distance: {distance.toFixed(2)}km</Text>
                 <WalkTimer />
             </View>
-            <WalkControls />
+            <WalkControls setModVis={setModVis} />
         </View>
     );
 };

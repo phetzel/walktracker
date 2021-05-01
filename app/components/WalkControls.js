@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from '../util/colors';
 import WalkContext from '../context/walk_context';
 
-const WalkControls = (props) => {
+const WalkControls = ({ setModVis }) => {
     const { 
         isPaused,
         handlePause,
@@ -19,6 +19,7 @@ const WalkControls = (props) => {
         handleReset();
         setDistance(0);
         setOnWalk(false);
+        setModVis(true);
     }
 
     const playPause = isPaused ? (

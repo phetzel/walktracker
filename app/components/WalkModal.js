@@ -3,34 +3,50 @@ import { View, StyleSheet, Modal, Text } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from '../util/colors';
+import { createWalk } from '../api/walk_api';
 import textUtil from '../util/text';
 
 const WalkModal = ({ visible, setVisible }) => {
-    return <View style={styles.container}>
+    const handleSave = () => {
+        createWalk();
+    }
+
+    return (
         <Modal
             animationType="fade"
-            visible={visible}
+            visible={false}
             onRequestClose={() => setVisible(false)}
         >
             <View style={styles.modal}>
-                <Text style={textUtil}>Save Walk</Text>
-                <View>
+                <Text style={textUtil}>Would you ike to save this walk?</Text>
+                <View style={styles.modalIcons}>
                     <MaterialCommunityIcons 
-                        name="yes" 
+                        name="check-box-outline" 
                         size={35} 
-                        color={colors.black} />
+                        color={colors.green} />
                     <MaterialCommunityIcons 
-                        name="no" 
+                        name="close-box-outline" 
                         size={35} 
-                        color={colors.black} />
+                        color={colors.red} />
                 </View>
             </View>
         </Modal>
-    </View>;
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  modal: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%'
+  },
+  modalIcons: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      marginTop: 20,
+      width: '33%',
+  }
 });
 
 export default WalkModal;
