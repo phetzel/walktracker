@@ -10,15 +10,9 @@ const WalkControls = ({ setModVis }) => {
         isPaused,
         handlePause,
         handleResume,
-        handleReset,
-        setOnWalk,
-        setDistance
     } = useContext(WalkContext);
 
     const handleStop = () => {
-        handleReset();
-        setDistance(0);
-        setOnWalk(false);
         setModVis(true);
     }
 
