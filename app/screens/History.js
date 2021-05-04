@@ -8,7 +8,7 @@ import HistoryListHeader from '../components/HistoryListHeader';
 import Screen from '../components/Screen';
 import WalkContext from '../context/walk_context';
 import UserContext from '../context/user_context';
-import { createUser, fetchUser } from '../api/user_api';
+import { fetchUser } from '../api/user_api';
 
 
 const History = (props) => {
@@ -38,7 +38,8 @@ const History = (props) => {
                         <HistoryListItem 
                             id={item.id} 
                             dist={item.distance}
-                            date={item.created_at} />
+                            date={item.created_at} 
+                            time={item.time} />
                     }
                 />
             </View>

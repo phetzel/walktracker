@@ -35,8 +35,8 @@ const Walk = () => {
         setWatch(
             newLoc =  await Location.watchPositionAsync({
                 accuracy: Location.Accuracy.High,
-                timeInterval: 1000,
-                distanceInterval: 10
+                timeInterval: 100000,
+                distanceInterval: 100
             }, position => {
                 const { latitude, longitude } = position.coords;
                 const newCoord = {
