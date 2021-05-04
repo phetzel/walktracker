@@ -8,12 +8,7 @@ import WalkContext from '../context/walk_context';
 const WalkTimer = (props) => {
     const { 
         timer,
-        isActive,
-        isPaused,
         handleStart,
-        handlePause,
-        handleResume,
-        handleReset,
     } = useContext(WalkContext);
 
     useEffect(() => {

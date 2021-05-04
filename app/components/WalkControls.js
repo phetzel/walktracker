@@ -19,13 +19,13 @@ const WalkControls = ({ setModVis }) => {
     const playPause = isPaused ? (
         <MaterialCommunityIcons 
             name="pause" 
-            size={35} 
+            size={45} 
             color={colors.black} 
             onPress={handlePause}/>
     ) : (
         <MaterialCommunityIcons 
             name="play" 
-            size={35} 
+            size={45} 
             color={colors.black} 
             onPress={handleResume}/>
     );
@@ -35,7 +35,7 @@ const WalkControls = ({ setModVis }) => {
             {playPause}
             <MaterialCommunityIcons 
                 name="stop" 
-                size={35} 
+                size={45} 
                 color={colors.red} 
                 onPress={handleStop}/>
         </View>

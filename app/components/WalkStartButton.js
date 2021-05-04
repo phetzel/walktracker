@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.red,
     borderColor: colors.black,
-    borderRadius: 25,
+    borderRadius: 35,
     borderWidth: 7,
-    height: 50,
+    height: 70,
     justifyContent: "center",
-    width: 50,
+    width: 70,
   },
 });
 

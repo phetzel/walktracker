@@ -10,7 +10,7 @@ const WalkStart = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={textUtil}>Click to Start Walk</Text>
+            <Text style={textUtil}>Click to Start Tracking</Text>
             <WalkStartButton onPress={() => setOnWalk(true)}/>
         </View>
     );

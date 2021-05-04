@@ -11,9 +11,7 @@ import WalkContext from '../context/walk_context';
 
 const WalkModal = ({ visible, setVisible }) => {
     const { 
-        isPaused,
-        handlePause,
-        handleResume,
+        timer,
         handleReset,
         setOnWalk,
         distance,

@@ -36,9 +36,6 @@ const styles = StyleSheet.create({
       position: 'absolute',
       width: '95%'
   },
-  text: {
-      fontSize: 25
-  }
 });
 
 export default WalkDetails;

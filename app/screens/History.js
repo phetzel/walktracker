@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -6,14 +6,17 @@ import colors from '../util/colors';
 import HistoryListItem from '../components/HistoryListItem';
 import HistoryListHeader from '../components/HistoryListHeader';
 import Screen from '../components/Screen';
+import WalkContext from '../context/walk_context';
 import { createUser, fetchUser } from '../api/user_api';
 
 
 const History = (props) => {
     const [walks, setWalks] = useState();
+        const { onWalk } = useContext(WalkContext);
 
     const fetchUserWalks = async () => {
         const value = await AsyncStorage.getItem('id');
+        console.log(value);
 
         if (value != null) {
             fetchUser(value).then(res => {
@@ -30,7 +33,7 @@ const History = (props) => {
 
     useEffect(() => {
         fetchUserWalks();
-    }, []);
+    }, [onWalk]);
 
     return (
         <Screen style={styles.container}>
