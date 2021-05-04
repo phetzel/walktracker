@@ -7,28 +7,19 @@ import HistoryListItem from '../components/HistoryListItem';
 import HistoryListHeader from '../components/HistoryListHeader';
 import Screen from '../components/Screen';
 import WalkContext from '../context/walk_context';
+import UserContext from '../context/user_context';
 import { createUser, fetchUser } from '../api/user_api';
 
 
 const History = (props) => {
     const [walks, setWalks] = useState();
-        const { onWalk } = useContext(WalkContext);
+    const { userId } = useContext(UserContext);
+    const { onWalk } = useContext(WalkContext);
 
     const fetchUserWalks = async () => {
-        const value = await AsyncStorage.getItem('id');
-        console.log(value);
-
-        if (value != null) {
-            fetchUser(value).then(res => {
-                setWalks(res.data.walks);
-            })
-        } else {
-            createUser()
-                .then(res => {
-                    console.log(res);
-                    AsyncStorage.setItem('id', res.data.id.toString());
-                })
-        }
+        fetchUser(userId).then(res => {
+            setWalks(res.data.walks);
+        })
     }
 
     useEffect(() => {

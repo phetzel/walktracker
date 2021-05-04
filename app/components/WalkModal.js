@@ -5,11 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../util/colors';
 import { createWalk } from '../api/walk_api';
-import { createUser } from '../api/user_api';
 import textUtil from '../util/text';
 import WalkContext from '../context/walk_context';
+import UserContext from '../context/user_context';
 
 const WalkModal = ({ visible, setVisible }) => {
+    const { userId } = useContext(UserContext);
     const { 
         timer,
         handleReset,
@@ -18,23 +19,11 @@ const WalkModal = ({ visible, setVisible }) => {
         setDistance
     } = useContext(WalkContext);
 
-    const handleSave = async () => {
-        const value = await AsyncStorage.getItem('id');
-        let id;
-
-        if (value != null) {
-            id = value;
-        } else {
-            createUser()
-                .then(res => {
-                    AsyncStorage.setItem('id', res.data.id.toString());
-                    id = value;
-                })
-        }
-
+    const handleSave = () => {
         const data = new FormData();
-        data.append('walk[user_id]', id);
+        data.append('walk[user_id]',  userId);
         data.append('walk[distance]', distance);
+        data.append('walk[time]', timer);
 
         createWalk(data);
 
