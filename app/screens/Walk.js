@@ -86,7 +86,7 @@ const Walk = () => {
             { location &&
                 <MapView
                     style={styles.map}
-                    initialRegion={{
+                    region={{
                         latitude: location.latitude,
                         longitude: location.longitude,
                         latitudeDelta: 0.05,
