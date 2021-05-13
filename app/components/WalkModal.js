@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../util/colors';
 import { createWalk } from '../api/walk_api';
+import { createLatLng } from '../api/lat_lng_api';
 import textUtil from '../util/text';
 import WalkContext from '../context/walk_context';
 import UserContext from '../context/user_context';
@@ -12,6 +13,8 @@ import UserContext from '../context/user_context';
 const WalkModal = ({ visible, setVisible }) => {
     const { userId } = useContext(UserContext);
     const { 
+        coords,
+        setCoords,
         timer,
         handleReset,
         setOnWalk,
@@ -25,17 +28,29 @@ const WalkModal = ({ visible, setVisible }) => {
         data.append('walk[distance]', distance);
         data.append('walk[time]', timer);
 
-        createWalk(data);
+        createWalk(data)
+            .then(res => {
+                coords.forEach(coord => {
+                    const coordObj = new FormData();
+                    coordObj.append('lat_lng[walk_id]', res.data.id);
+                    coordObj.append('lat_lng[lat]', coord.latitude);
+                    coordObj.append('lat_lng[lng]', coord.longitude);
+
+                    createLatLng(coordObj);
+                })
+            });
 
         handleReset();
         setDistance(0);
         setOnWalk(false);
+        setCoords();
     }
 
     const handleNoSave = () => {
         handleReset();
         setDistance(0);
         setOnWalk(false);
+        setCoords();
     }
 
 

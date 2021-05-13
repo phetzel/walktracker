@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 
 import WalkScreen from '../screens/Walk';
-import HistoryScreen from '../screens/History';
+import HistoryNavigator from './HistoryNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ const TabNavigator = (props) => {
                 }}
             />
             <Tab.Screen 
-                component={HistoryScreen}
+                component={HistoryNavigator}
                 name="History"
                 options={{
                     tabBarIcon: ({ color, size }) => (

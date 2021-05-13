@@ -10,10 +10,9 @@ import WalkStart from '../components/WalkStart';
 
 const Walk = () => {
     const [location, setLocation] = useState();
-    const [coords, setCoords] = useState([]);
     const [last, setLast] = useState();
     const [watch, setWatch] = useState();
-    const { onWalk, distance, setDistance, isPaused } = useContext(WalkContext);
+    const { coords, setCoords, onWalk, distance, setDistance, isPaused } = useContext(WalkContext);
 
     const getInitLocation = async () => {
         const { granted } = await Location.requestPermissionsAsync();
@@ -26,40 +25,45 @@ const Walk = () => {
             latitude: currentLocation.coords.latitude,
             longitude: currentLocation.coords.longitude
         };
+
         setLast(firstLast);
+        setCoords([firstLast]);
     }
 
 
-    const watchPosition = async () => {
-        let newLoc;
-        setWatch(
-            newLoc =  await Location.watchPositionAsync({
-                accuracy: Location.Accuracy.High,
-                timeInterval: 100000,
-                distanceInterval: 100
-            }, position => {
-                const { latitude, longitude } = position.coords;
-                const newCoord = {
-                    latitude,
-                    longitude
-                }
+    const watchPosition = () => {
+        Location.watchPositionAsync({
+            accuracy: Location.Accuracy.High,
+            timeInterval: 100000,
+            distanceInterval: 10
+        }, position => {
+            const { latitude, longitude } = position.coords;
+            const newCoord = {
+                latitude,
+                longitude
+            }
 
-                if (last) {
-                    const newDist = distanceBetween(
-                        last.latitude,
-                        last.longitude,
-                        newCoord.latitude,
-                        newCoord.longitude
-                    );
-                    setDistance(distance + newDist);
-                    setLast(newCoord);
-                }
+            if (last) {
+                const newDist = distanceBetween(
+                    last.latitude,
+                    last.longitude,
+                    newCoord.latitude,
+                    newCoord.longitude
+                );
+                setDistance(distance + newDist);
+                setLast(newCoord);
+            }
+
+            const newCoords = [...coords, newCoord];
+            newCoords.push(newCoord);
+            setCoords(newCoords);
                 
-                setCoords([...coords, newCoord]);
-                setLocation(position.coords);
-            }, 
-            err => console.log(err))
-        );
+            setLocation(position.coords);
+        }).then((locationWatcher) => {
+            setWatch(locationWatcher);
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     const stopWatching = () => {
@@ -69,7 +73,7 @@ const Walk = () => {
     }
 
     useEffect(() => {
-        if (!location) {
+        if (!coords) {
             getInitLocation();
         }
 
@@ -78,6 +82,7 @@ const Walk = () => {
         } else {
             stopWatching();
         }
+        console.log(coords);
 
     }, [isPaused]);
 
@@ -116,6 +121,7 @@ const Walk = () => {
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -12,6 +12,7 @@ import { createUser, fetchUser } from './app/api/user_api';
 export default function App() {
   const [userId, setUserId] = useState();
   const [onWalk, setOnWalk] = useState(false);
+  const [coords, setCoords] = useState();
   const [distance, setDistance] = useState(0);
   const { timer, isActive, isPaused, handleStart, handlePause, handleResume, handleReset } = useTimer(0);
 
@@ -41,6 +42,8 @@ export default function App() {
         value={{ 
           onWalk, 
           setOnWalk,
+          coords, 
+          setCoords,
           distance,
           setDistance,
           timer,

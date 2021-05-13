@@ -1,18 +1,25 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../util/colors';
 import { distDisplay, dateDisplay } from '../util/history';
 import textUtil from '../util/text';
 import { formatTime } from '../util/time';
 
-const HistoryListItem = ({ id, dist, date, time }) => {
+const HistoryListItem = ({ dist, date, id, time }) => {
+    const navigation = useNavigation();
+
+    const handlePress = () => {
+        navigation.navigate('Show', { id: id })
+    }
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={handlePress}>
             <Text style={textUtil}>Distance:  {distDisplay(dist)}</Text>
             <Text style={textUtil}>Date:  {dateDisplay(date)}</Text>
             <Text style={textUtil}>Time:  {formatTime(time)}</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 
