@@ -3,6 +3,8 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 import { fetchWalk } from '../api/walk_api';
 import colors from '../util/colors';
+import HistoryShowDetails from '../components/HistoryShowDetails';
+import HistoryShowMap from '../components/HistoryShowMap';
 import text from '../util/text';
 import Screen from '../components/Screen';
 
@@ -18,6 +20,18 @@ const HistoryShow = ({ navigation, route }) => {
     return (
         <Screen>
             <View style={styles.container}>
+                { walk &&
+                    <View>
+                        <HistoryShowMap 
+                            coords={walk.lat_lngs}/>
+
+                        <HistoryShowDetails 
+                            distance={walk.distance}
+                            date={walk.created_at} 
+                            time={walk.time} />
+                    </View>
+                }
+                
                 <TouchableOpacity
                     style={styles.backButton}
                     onPress={() => navigation.navigate('Index')}>
@@ -29,6 +43,10 @@ const HistoryShow = ({ navigation, route }) => {
     ;
 };
 const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+        width: '100%'
+    },
   backButton: {
       alignSelf: 'center',
       alignItems: 'center',

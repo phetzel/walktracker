@@ -18,7 +18,7 @@ const History = (props) => {
 
     const fetchUserWalks = async () => {
         fetchUser(userId).then(res => {
-            setWalks(res.data.walks);
+            setWalks(res.data.walks.reverse());
         })
     }
 
