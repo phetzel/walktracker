@@ -13,6 +13,6 @@ export const createWalk = (walk) => (
 );
 
 export const destroyWalk = id => (
-    apiClient.post(`/walks/${id}`)
+    apiClient.delete(`/walks/${id}`)
 );
 

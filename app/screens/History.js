@@ -13,6 +13,7 @@ import { fetchUser } from '../api/user_api';
 
 const History = (props) => {
     const [walks, setWalks] = useState();
+    const [deleted, setDeleted] = useState(false);
     const { userId } = useContext(UserContext);
     const { onWalk } = useContext(WalkContext);
 
@@ -20,11 +21,12 @@ const History = (props) => {
         fetchUser(userId).then(res => {
             setWalks(res.data.walks.reverse());
         })
+        setDeleted(false);
     }
 
     useEffect(() => {
         fetchUserWalks();
-    }, [onWalk]);
+    }, [onWalk, deleted]);
 
     return (
         <Screen style={styles.container}>
@@ -38,7 +40,8 @@ const History = (props) => {
                         <HistoryListItem 
                             id={item.id} 
                             dist={item.distance}
-                            date={item.created_at} 
+                            date={item.created_at}
+                            setDeleted={setDeleted} 
                             time={item.time} />
                     }
                 />

@@ -38,12 +38,12 @@ const WalkModal = ({ visible, setVisible }) => {
 
                     createLatLng(coordObj);
                 })
+                
+                handleReset();
+                setDistance(0);
+                setOnWalk(false);
+                setCoords();
             });
-
-        handleReset();
-        setDistance(0);
-        setOnWalk(false);
-        setCoords();
     }
 
     const handleNoSave = () => {

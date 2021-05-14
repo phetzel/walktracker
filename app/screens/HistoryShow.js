@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-import { fetchWalk } from '../api/walk_api';
+import { fetchWalk, destroyWalk } from '../api/walk_api';
 import colors from '../util/colors';
 import HistoryShowDetails from '../components/HistoryShowDetails';
 import HistoryShowMap from '../components/HistoryShowMap';
@@ -10,9 +10,18 @@ import Screen from '../components/Screen';
 
 const HistoryShow = ({ navigation, route }) => {
     const [walk, setWalk] = useState();
+    const { id, setDeleted } = route.params;
+
+    const handleDelete = () => {
+        destroyWalk(walk.id)
+            .then(() => {
+                setDeleted(true);
+                navigation.navigate('Index');
+            });
+    }
 
     useEffect(() => {
-        fetchWalk(route.params.id).then(res => {
+        fetchWalk(id).then(res => {
             setWalk(res.data);
         })
     }, []);
@@ -32,6 +41,12 @@ const HistoryShow = ({ navigation, route }) => {
                     </View>
                 }
                 
+                <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={handleDelete}>
+                    <Text style={text}>Delete</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                     style={styles.backButton}
                     onPress={() => navigation.navigate('Index')}>
@@ -57,6 +72,16 @@ const styles = StyleSheet.create({
       height: 50,
       width: 100,
   },
+  deleteButton : {
+        alignSelf: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.red,
+      borderRadius: 5,
+      justifyContent: 'center',
+      padding: 5,
+      height: 50,
+      width: 100,
+  }
 });
 
 export default HistoryShow;

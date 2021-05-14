@@ -3,6 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 const HistoryShowMap = ({ coords }) => {
+    if (!coords) return null;
+    
     return (
         <MapView 
             style={styles.map}
