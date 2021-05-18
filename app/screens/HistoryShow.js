@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
       backgroundColor: colors.red,
       borderRadius: 5,
       justifyContent: 'center',
+      marginBottom: 10,
+      marginTop: 10,
       padding: 5,
       height: 50,
       width: 100,

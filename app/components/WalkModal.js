@@ -33,8 +33,8 @@ const WalkModal = ({ visible, setVisible }) => {
                 coords.forEach(coord => {
                     const coordObj = new FormData();
                     coordObj.append('lat_lng[walk_id]', res.data.id);
-                    coordObj.append('lat_lng[lat]', coord.latitude);
-                    coordObj.append('lat_lng[lng]', coord.longitude);
+                    coordObj.append('lat_lng[latitude]', coord.latitude);
+                    coordObj.append('lat_lng[longitude]', coord.longitude);
 
                     createLatLng(coordObj);
                 })

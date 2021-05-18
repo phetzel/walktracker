@@ -4,13 +4,14 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 
 const HistoryShowMap = ({ coords }) => {
     if (!coords) return null;
+    console.log(coords);
     
     return (
         <MapView 
             style={styles.map}
             region={{
-                latitude: coords[0].lat,
-                longitude: coords[0].lng,
+                latitude: coords[0].latitude,
+                longitude: coords[0].longitude,
                 latitudeDelta: 0.05,
                 longitudeDelta: 0.05
             }}
