@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import colors from '../util/colors';
 import { createWalk } from '../api/walk_api';
@@ -11,6 +11,7 @@ import WalkContext from '../context/walk_context';
 import UserContext from '../context/user_context';
 
 const WalkModal = ({ visible, setVisible }) => {
+    const navigation = useNavigation();
     const { userId } = useContext(UserContext);
     const { 
         coords,
@@ -43,6 +44,7 @@ const WalkModal = ({ visible, setVisible }) => {
                 setDistance(0);
                 setOnWalk(false);
                 setCoords();
+                navigation.navigate('History');
             });
     }
 

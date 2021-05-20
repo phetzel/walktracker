@@ -84,7 +84,7 @@ const Walk = () => {
         }
         console.log(coords);
 
-    }, [isPaused]);
+    }, [isPaused, onWalk]);
 
     return (
         <View style={styles.container}>

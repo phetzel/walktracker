@@ -4,7 +4,6 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 
 const HistoryShowMap = ({ coords }) => {
     if (!coords) return null;
-    console.log(coords);
     
     return (
         <MapView 
