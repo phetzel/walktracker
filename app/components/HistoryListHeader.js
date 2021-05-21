@@ -6,7 +6,7 @@ import colors from '../util/colors';
 const HistoryListHeader = (props) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>PAST WALKS</Text>
+            <Text style={styles.header}>HISTORY</Text>
         </View>
     );
 };

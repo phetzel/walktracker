@@ -20,7 +20,6 @@ export default function App() {
     const value = await AsyncStorage.getItem('id');
 
     fetchUser(value).then(res1 => {
-      console.log(res1);
       if(!res1.data.id) {
         createUser()
           .then(res2 => {

@@ -28,6 +28,8 @@ const History = (props) => {
         fetchUserWalks();
     }, [onWalk, deleted]);
 
+    console.log(walks);
+
     return (
         <Screen style={styles.container}>
             <View style={styles.list}>
@@ -39,6 +41,7 @@ const History = (props) => {
                     renderItem={({item}) => 
                         <HistoryListItem 
                             id={item.id} 
+                            act={item.activity}
                             dist={item.distance}
                             date={item.created_at}
                             setDeleted={setDeleted} 

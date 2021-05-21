@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Modal, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
 
 import colors from '../util/colors';
 import { createWalk } from '../api/walk_api';
@@ -22,12 +23,15 @@ const WalkModal = ({ visible, setVisible }) => {
         distance,
         setDistance
     } = useContext(WalkContext);
+    const [dispAct, setDispAct] = useState(false);
+    const [act, setAct] = useState('misc');
 
     const handleSave = () => {
         const data = new FormData();
         data.append('walk[user_id]',  userId);
         data.append('walk[distance]', distance);
         data.append('walk[time]', timer);
+        data.append('walk[activity]', act);
 
         createWalk(data)
             .then(res => {
@@ -43,7 +47,7 @@ const WalkModal = ({ visible, setVisible }) => {
                 handleReset();
                 setDistance(0);
                 setOnWalk(false);
-                setCoords();
+                setCoords([]);
                 navigation.navigate('History');
             });
     }
@@ -52,8 +56,69 @@ const WalkModal = ({ visible, setVisible }) => {
         handleReset();
         setDistance(0);
         setOnWalk(false);
-        setCoords();
+        setCoords([]);
     }
+
+    const content = dispAct ? (
+                <View style={styles.modal}>
+            <Text style={textUtil}>Choose an activity type</Text>
+ 
+            <Picker 
+                selectedValue={act}
+                style={styles.activitiesPicker}
+                onValueChange={(itemVal, itemIdx) => {
+                    setAct(itemVal);
+                    console.log(act);
+                }}>
+                <Picker.Item label="Walk" value="walk" />
+                <Picker.Item label="Bike" value="bike" />
+                <Picker.Item label="Skate" value="roller-skate" />
+                <Picker.Item label="Other" value="star" />
+            </Picker>
+
+
+            <View style={styles.activitiesIcons}>
+                <TouchableOpacity
+                    onPress={handleSave}>
+                    <MaterialCommunityIcons 
+                        name="check-box-outline" 
+                        size={35} 
+                        color={colors.green} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => setDispAct(false)}>
+                    <MaterialCommunityIcons 
+                        name="close-box-outline" 
+                        size={35} 
+                        color={colors.red} />
+                </TouchableOpacity>
+            </View>
+        </View>
+    ) : (
+
+        <View style={styles.modal}>
+            <Text style={textUtil}>Would you like to save this walk?</Text>
+            <View style={styles.modalIcons}>
+                <TouchableOpacity
+                    // onPress={handleSave}>
+                    onPress={() => setDispAct(true)}>
+                    <MaterialCommunityIcons 
+                        name="check-box-outline" 
+                        size={35} 
+                        color={colors.green} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={handleNoSave}>
+                    <MaterialCommunityIcons 
+                        name="close-box-outline" 
+                        size={35} 
+                        color={colors.red} />
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
 
 
     return (
@@ -62,43 +127,34 @@ const WalkModal = ({ visible, setVisible }) => {
             visible={visible || false}
             onRequestClose={() => setVisible(visible)}
         >
-            <View style={styles.modal}>
-                <Text style={textUtil}>Would you like to save this walk?</Text>
-                <View style={styles.modalIcons}>
-                    <TouchableOpacity
-                        onPress={handleSave}>
-                        <MaterialCommunityIcons 
-                            name="check-box-outline" 
-                            size={35} 
-                            color={colors.green} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={handleNoSave}>
-                        <MaterialCommunityIcons 
-                            name="close-box-outline" 
-                            size={35} 
-                            color={colors.red} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            {content}
         </Modal>
     );
 };
 
 const styles = StyleSheet.create({
-  modal: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      width: '100%'
-  },
-  modalIcons: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      marginTop: 20,
-      width: '33%',
-  }
+    activitiesIcons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+        width: '33%',
+    },
+    activitiesPicker: {
+        height: 200,
+        width: 200
+    },
+    modal: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        width: '100%'
+    },
+    modalIcons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+        width: '33%',
+    }
 });
 
 export default WalkModal;

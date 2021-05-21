@@ -3,9 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 const HistoryShowMap = ({ coords }) => {
-    if (!coords) return null;
+    if (!coords || coords.length < 1) return null;
     
     return (
+      <View>
         <MapView 
             style={styles.map}
             region={{
@@ -17,6 +18,7 @@ const HistoryShowMap = ({ coords }) => {
             provider={MapView.PROVIDER_GOOGLE}>
             <Polyline coordinates={coords} strokeWidth={5} />
         </MapView>
+      </View>
     );
 };
 const styles = StyleSheet.create({

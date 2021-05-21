@@ -34,7 +34,7 @@ const Walk = () => {
     const watchPosition = () => {
         Location.watchPositionAsync({
             accuracy: Location.Accuracy.High,
-            timeInterval: 100000,
+            timeInterval: 50000,
             distanceInterval: 10
         }, position => {
             const { latitude, longitude } = position.coords;
@@ -69,20 +69,20 @@ const Walk = () => {
     const stopWatching = () => {
         if (watch) {
             watch.remove();
+            setWatch();
         }
     }
 
     useEffect(() => {
-        if (!coords) {
+        if (!coords || coords.length < 1) {
             getInitLocation();
         }
 
-        if (isPaused) {
+        if (isPaused && onWalk) {
             watchPosition();
         } else {
             stopWatching();
         }
-        console.log(coords);
 
     }, [isPaused, onWalk]);
 
