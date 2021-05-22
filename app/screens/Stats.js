@@ -3,18 +3,20 @@ import { View, StyleSheet, Text } from 'react-native';
 
 import colors from '../util/colors';
 import Screen from '../components/Screen';
+import StatsDetails from '../components/StatsDetails';
 import SwitchTimes from '../components/SwitchTimes';
 import UserContext from '../context/user_context';
 import { fetchWalks } from '../api/walk_api';
 
 const Stats = (props) => {
-    const [time, setTime] = useState('all');
     const { userId } = useContext(UserContext);
+    const [time, setTime] = useState('all');
+    const [walks, setWalks] = useState();
 
     useEffect(() => {
         const obj = { user_id: userId, date: time };
         fetchWalks(obj).then(res => {
-            console.log(res.data.length);
+            setWalks(res.data);
         })
     }, [time])
 
@@ -23,6 +25,10 @@ const Stats = (props) => {
             <View style={styles.container}>
                 <Text style={styles.header}>STATS</Text>
                 <SwitchTimes func={setTime} />
+
+                { walks &&
+                    <StatsDetails time={time} walks={walks} />
+                }
             </View>
         </Screen>
     );
