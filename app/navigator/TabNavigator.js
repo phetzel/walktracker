@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 
+import Stats from '../screens/Stats';
 import WalkScreen from '../screens/Walk';
 import HistoryNavigator from './HistoryNavigator';
 
@@ -11,8 +12,17 @@ const TabNavigator = (props) => {
     return (
         <Tab.Navigator>
             <Tab.Screen 
+                component={HistoryNavigator}
+                name="History"
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="content-paste" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
                 component={WalkScreen}
-                name="Walk"
+                name="Start"
                 options={{
                     tabBarIcon: ({ color, size }) => (
                         <FontAwesome5 name="walking" size={size} color={color} />
@@ -20,11 +30,11 @@ const TabNavigator = (props) => {
                 }}
             />
             <Tab.Screen 
-                component={HistoryNavigator}
-                name="History"
+                component={Stats}
+                name="Stats"
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="content-paste" color={color} size={size} />
+                        <Fontisto name="bar-chart" size={size} color={color} />
                     ),
                 }}
             />
