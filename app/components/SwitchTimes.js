@@ -5,7 +5,7 @@ import colors from '../util/colors';
 import Seporator from './SwitchSeperator';
 
 
-const SwitchTimes = (props) => {
+const SwitchTimes = ({ func }) => {
     const [tab, setTab] = useState('all');
 
     const isActive = num => {
@@ -14,6 +14,7 @@ const SwitchTimes = (props) => {
 
     const handleClick = type => {
         setTab(type);
+        func(type);
     }
 
     return (
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       justifyContent: 'space-around',
       flexDirection: 'row',
-      marginTop: 20,
       width: '80%'
   }, 
   button: {

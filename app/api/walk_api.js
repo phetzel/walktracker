@@ -1,7 +1,7 @@
 import apiClient from './client';
 
-export const fetchWalks = () => (
-    apiClient.get(`/walks`)
+export const fetchWalks = (data) => (
+    apiClient.get(`/walks`, data)
 );
 
 export const fetchWalk = id => (

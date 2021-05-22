@@ -24,7 +24,7 @@ const WalkModal = ({ visible, setVisible }) => {
         setDistance
     } = useContext(WalkContext);
     const [dispAct, setDispAct] = useState(false);
-    const [act, setAct] = useState('misc');
+    const [act, setAct] = useState('walk');
 
     const handleSave = () => {
         const data = new FormData();
@@ -68,7 +68,6 @@ const WalkModal = ({ visible, setVisible }) => {
                 style={styles.activitiesPicker}
                 onValueChange={(itemVal, itemIdx) => {
                     setAct(itemVal);
-                    console.log(act);
                 }}>
                 <Picker.Item label="Walk" value="walk" />
                 <Picker.Item label="Bike" value="bike" />

@@ -14,7 +14,6 @@ const HistoryListItem = ({ act, dist, date, id, time, setDeleted }) => {
     const handlePress = () => {
         navigation.navigate('Show', { id: id, setDeleted: setDeleted })
     }
-    console.log(act);
 
     return (
         <TouchableOpacity style={styles.container} onPress={handlePress}>

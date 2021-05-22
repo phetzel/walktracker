@@ -28,7 +28,6 @@ const History = (props) => {
         fetchUserWalks();
     }, [onWalk, deleted]);
 
-    console.log(walks);
 
     return (
         <Screen style={styles.container}>
