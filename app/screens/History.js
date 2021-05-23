@@ -9,17 +9,18 @@ import Screen from '../components/Screen';
 import WalkContext from '../context/walk_context';
 import UserContext from '../context/user_context';
 
+import SwitchActivity from '../components/SwitchActivity';
 import { fetchWalks } from '../api/walk_api';
 
 const History = (props) => {
-    const [walks, setWalks] = useState();
-    const [deleted, setDeleted] = useState(false);
     const { userId } = useContext(UserContext);
     const { onWalk } = useContext(WalkContext);
+    const [walks, setWalks] = useState();
+    const [deleted, setDeleted] = useState(false);
+    const [activity, setActivity] = useState();
 
     const fetchUserWalks = () => {
-        const obj = { user_id: userId}
-        console.log(obj);
+        const obj = { user_id: userId, activity: activity };
         fetchWalks(obj).then(res => {
             console.log(res);
             setWalks(res.data.reverse());
@@ -29,17 +30,18 @@ const History = (props) => {
 
     useEffect(() => {
         fetchUserWalks();
-    }, [onWalk, deleted, userId]);
+    }, [onWalk, deleted, userId, activity]);
 
 
     return (
         <Screen style={styles.container}>
             <View style={styles.list}>
+                <HistoryListHeader />
+                <SwitchActivity func={setActivity} />
                 <FlatList 
                     contentContainerStyle={{ flexGrow: 1 }}
                     data={walks}
                     keyExtractor={walk => walk.id.toString()}
-                    ListHeaderComponent={() => <HistoryListHeader />}
                     renderItem={({item}) => 
                         <HistoryListItem 
                             id={item.id} 
