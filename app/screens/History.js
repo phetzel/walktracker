@@ -8,8 +8,8 @@ import HistoryListHeader from '../components/HistoryListHeader';
 import Screen from '../components/Screen';
 import WalkContext from '../context/walk_context';
 import UserContext from '../context/user_context';
-import { fetchUser } from '../api/user_api';
 
+import { fetchWalks } from '../api/walk_api';
 
 const History = (props) => {
     const [walks, setWalks] = useState();
@@ -17,16 +17,19 @@ const History = (props) => {
     const { userId } = useContext(UserContext);
     const { onWalk } = useContext(WalkContext);
 
-    const fetchUserWalks = async () => {
-        fetchUser(userId).then(res => {
-            setWalks(res.data.walks.reverse());
+    const fetchUserWalks = () => {
+        const obj = { user_id: userId}
+        console.log(obj);
+        fetchWalks(obj).then(res => {
+            console.log(res);
+            setWalks(res.data.reverse());
         })
         setDeleted(false);
     }
 
     useEffect(() => {
         fetchUserWalks();
-    }, [onWalk, deleted]);
+    }, [onWalk, deleted, userId]);
 
 
     return (

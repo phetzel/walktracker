@@ -31,3 +31,24 @@ export const avePace = walks => {
     return ave.toFixed(2);
 }
 
+const TIMES = {
+    'all': 'All Time',
+    'month': 'Last Month',
+    'week': 'Last Week'
+}
+
+export const timeDisplay = time => {
+    return TIMES[time];
+}
+
+const ACTIVITIES = {
+    'walk': 'Walks',
+    'bike': 'Bike Rides',
+    'roller-skate': 'Skating'
+};
+
+export const actDisplay = act => {
+    if (!act) return 'Total Trips';
+    return ACTIVITIES[act];
+}
+
