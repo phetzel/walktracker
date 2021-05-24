@@ -2,6 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 
+import colors from '../util/colors';
 import Stats from '../screens/Stats';
 import WalkScreen from '../screens/Walk';
 import HistoryNavigator from './HistoryNavigator';
@@ -10,7 +11,17 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = (props) => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            initialRouteName="Start"
+            tabBarOptions={{
+                activeTintColor: colors.blue,
+                style: {
+                    paddingTop: 15,
+                    paddingBottom: 30,
+                    height: 100
+                }
+            }}
+        >
             <Tab.Screen 
                 component={HistoryNavigator}
                 name="History"
