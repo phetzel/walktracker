@@ -15,7 +15,6 @@ import {
 } from '../util/stats';
 
 const StatsDetails = ({ activity, time, walks }) => {
-    console.log(walks);
     return (
         <View style={styles.container}>
             <Text style={[text, styles.header]}>{actDisplay(activity)} {timeDisplay(time)}</Text>
