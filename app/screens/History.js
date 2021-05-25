@@ -22,6 +22,7 @@ const History = (props) => {
     const handleActivity = (type) => {
         if (activity != type) {
             setPage(0);
+            setWalks([]);
         }
         setActivity(type);
     }
