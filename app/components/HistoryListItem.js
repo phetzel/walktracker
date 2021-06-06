@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../util/colors';
 import { distDisplay, dateDisplay } from '../util/history';
+import { normalize } from '../util/dimensions';
 import textUtil from '../util/text';
 import { formatTime } from '../util/time';
 
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
       backgroundColor: colors.white,
       borderRadius: 20,
       flexDirection: 'row',
-      height: 100,
+      height: normalize(70),
       justifyContent: 'space-around',
       marginTop: 10,
       width: '90%'

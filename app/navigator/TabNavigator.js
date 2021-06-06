@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 
 import colors from '../util/colors';
+import { normalize } from '../util/dimensions';
 import Stats from '../screens/Stats';
 import WalkScreen from '../screens/Walk';
 import HistoryNavigator from './HistoryNavigator';
@@ -16,9 +17,9 @@ const TabNavigator = (props) => {
             tabBarOptions={{
                 activeTintColor: colors.blue,
                 style: {
-                    paddingTop: 15,
-                    paddingBottom: 30,
-                    height: 100
+                    paddingTop: normalize(5),
+                    paddingBottom: normalize(10),
+                    height: normalize(80)
                 }
             }}
         >

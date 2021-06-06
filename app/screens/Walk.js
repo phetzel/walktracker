@@ -31,10 +31,10 @@ const Walk = () => {
     }
 
 
-    const watchPosition = () => {
-        Location.watchPositionAsync({
+    const watchPosition = async () => {
+        let locations = await Location.watchPositionAsync({
             accuracy: Location.Accuracy.High,
-            timeInterval: 50000,
+            timeInterval: 5000,
             distanceInterval: 10
         }, position => {
             const { latitude, longitude } = position.coords;
@@ -57,13 +57,17 @@ const Walk = () => {
             const newCoords = [...coords, newCoord];
             newCoords.push(newCoord);
             setCoords(newCoords);
+
+            console.log('hit');
+            console.log(coords);
                 
             setLocation(position.coords);
-        }).then((locationWatcher) => {
-            setWatch(locationWatcher);
-        }).catch((err) => {
-            console.log(err);
         })
+        // .then((locationWatcher) => {
+        //     setWatch(locationWatcher);
+        // }).catch((err) => {
+        //     console.log(err);
+        // })
     }
 
     const stopWatching = () => {
