@@ -1,144 +1,157 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import * as Location from 'expo-location';
-import MapView, { Marker, Polyline } from 'react-native-maps';
+import React, { useContext, useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import * as Location from "expo-location";
+import * as TaskManager from "expo-task-manager";
+import MapView, { Marker, Polyline, PROVIDER_DEFAULT } from "react-native-maps";
 
-import distanceBetween from '../util/distance';
-import WalkContext from '../context/walk_context';
-import WalkDetails from '../components/WalkDetails';
-import WalkStart from '../components/WalkStart';
+import distanceBetween from "../util/distance";
+import WalkContext from "../context/walk_context";
+import WalkDetails from "../components/WalkDetails";
+import WalkStart from "../components/WalkStart";
+
+const LOCATION_TASK_NAME = "background-location-task";
+
+const LocationService = () => {
+  let subscribers = [];
+  let location = {
+    latitude: 0,
+    longitude: 0,
+  };
+
+  return {
+    subscribe: (sub) => subscribers.push(sub),
+    setLocation: (coords) => {
+      (location = coords), subscribers.forEach((sub) => sub(location));
+    },
+    unsubscribe: () => {
+      subscribers = subscribers.filter((_sub) => _sub !== _sub);
+    },
+  };
+};
+
+const locationService = LocationService();
 
 const Walk = () => {
-    const [location, setLocation] = useState();
-    const [last, setLast] = useState();
-    const [watch, setWatch] = useState();
-    const { coords, setCoords, onWalk, distance, setDistance, isPaused } = useContext(WalkContext);
+  const [location, setLocation] = useState();
+  const [last, setLast] = useState();
+  const { coords, setCoords, onWalk, distance, setDistance, isPaused } =
+    useContext(WalkContext);
 
-    const getInitLocation = async () => {
-        const { granted } = await Location.requestPermissionsAsync();
-        if (!granted) return;
+  const onLocationUpdate = (location) => {
+    const { latitude, longitude } = location;
+    const newCoord = {
+      latitude,
+      longitude,
+    };
 
-        const currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation.coords);
+    const newDist = distanceBetween(
+      last.latitude,
+      last.longitude,
+      newCoord.latitude,
+      newCoord.longitude
+    );
+    setDistance(distance + newDist);
+    setLast(newCoord);
 
-        const firstLast = {
-            latitude: currentLocation.coords.latitude,
-            longitude: currentLocation.coords.longitude
-        };
+    const newCoords = [...coords, newCoord];
+    newCoords.push(newCoord);
+    setCoords(newCoords);
 
-        setLast(firstLast);
-        setCoords([firstLast]);
-    }
+    setLocation(location);
+    console.log(location);
+  };
 
+  const stopLocationUpdate = () => {
+    locationService.unsubscribe();
+  };
 
-    const watchPosition = async () => {
-        let locations = await Location.watchPositionAsync({
-            accuracy: Location.Accuracy.High,
-            timeInterval: 5000,
-            distanceInterval: 10
-        }, position => {
-            const { latitude, longitude } = position.coords;
-            const newCoord = {
-                latitude,
-                longitude
-            }
+  const getInitLocation = async () => {
+    const { granted } = await Location.requestPermissionsAsync();
+    if (!granted) return;
 
-            if (last) {
-                const newDist = distanceBetween(
-                    last.latitude,
-                    last.longitude,
-                    newCoord.latitude,
-                    newCoord.longitude
-                );
-                setDistance(distance + newDist);
-                setLast(newCoord);
-            }
+    const currentLocation = await Location.getCurrentPositionAsync({});
+    setLocation(currentLocation.coords);
 
-            const newCoords = [...coords, newCoord];
-            newCoords.push(newCoord);
-            setCoords(newCoords);
+    const firstLast = {
+      latitude: currentLocation.coords.latitude,
+      longitude: currentLocation.coords.longitude,
+    };
 
-            console.log('hit');
-            console.log(coords);
-                
-            setLocation(position.coords);
-        })
-        // .then((locationWatcher) => {
-        //     setWatch(locationWatcher);
-        // }).catch((err) => {
-        //     console.log(err);
-        // })
-    }
+    setLast(firstLast);
+    setCoords([firstLast]);
+  };
 
-    const stopWatching = () => {
-        if (watch) {
-            watch.remove();
-            setWatch();
-        }
-    }
+  const watchPosition = async () => {
+    locationService.subscribe(onLocationUpdate);
+    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      accuracy: Location.Accuracy.Highest,
+      distanceInterval: 1,
+      timeInterval: 5000,
+    });
+  };
 
-    useEffect(() => {
-        if (!coords || coords.length < 1) {
-            getInitLocation();
-        }
+  useEffect(() => {
+    if (!onWalk || !isPaused) stopLocationUpdate();
+    if (!onWalk) getInitLocation();
+    if (onWalk && isPaused) watchPosition();
+  }, [onWalk, isPaused]);
 
-        if (isPaused && onWalk) {
-            watchPosition();
-        } else {
-            stopWatching();
-        }
+  return (
+    <View style={styles.container}>
+      {location && (
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+          }}
+          provider={MapView.PROVIDER_GOOGLE}
+          followsUserLocation={true}
+        >
+          <Polyline coordinates={coords} strokeWidth={5} />
 
-    }, [isPaused, onWalk]);
-
-    return (
-        <View style={styles.container}>
-            { location &&
-                <MapView
-                    style={styles.map}
-                    region={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                        latitudeDelta: 0.05,
-                        longitudeDelta: 0.05
-                    }}
-                    provider={MapView.PROVIDER_GOOGLE}
-                    followsUserLocation={true}>
-
-                    <Polyline coordinates={coords} strokeWidth={5} />
-
-                    <Marker
-                        coordinate={{ 
-                            latitude: location.latitude, 
-                            longitude: location.longitude 
-                        }}
-                    >
-
-                    </Marker>
-                    
-                
-                </MapView>
-            }
-            { onWalk ?
-                <WalkDetails distance={distance} /> :
-                <WalkStart />
-            }
-        </View>
-    )
-}
-
+          <Marker
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+          ></Marker>
+        </MapView>
+      )}
+      {onWalk ? <WalkDetails distance={distance} /> : <WalkStart />}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
   },
   map: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
   },
+});
+
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    const { latitude, longitude } = locations[0].coords;
+    locationService.setLocation({
+      latitude,
+      longitude,
+    });
+  }
 });
 
 export default Walk;
