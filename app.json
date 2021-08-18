@@ -2,7 +2,7 @@
   "expo": {
     "name": "WalkTracker",
     "slug": "WalkTracker",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
     "splash": {
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.philliphetzel.triptracker",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",
       "infoPlist": {
         "NSLocationAlwaysUsageDescription": "Tracking Location",
         "UIBackgroundModes": ["location", "fetch"]
