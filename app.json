@@ -13,13 +13,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-        "infoPlist": {
-          "NSLocationAlwaysUsageDescription": "Tracking Location"
+      "bundleIdentifier": "com.philliphetzel.triptracker",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "Tracking Location",
+        "UIBackgroundModes": ["location", "fetch"]
       }
     },
     "android": {

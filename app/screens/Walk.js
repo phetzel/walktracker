@@ -9,6 +9,7 @@ import WalkContext from "../context/walk_context";
 import WalkDetails from "../components/WalkDetails";
 import WalkStart from "../components/WalkStart";
 
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 const LOCATION_TASK_NAME = "background-location-task";
 
 const LocationService = () => {
@@ -100,6 +101,7 @@ const Walk = () => {
     <View style={styles.container}>
       {location && (
         <MapView
+          apiKey={GOOGLE_MAPS_API_KEY}
           style={styles.map}
           region={{
             latitude: location.latitude,
